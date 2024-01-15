@@ -212,3 +212,43 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd("help all")
         s = 'Prints all string representation of all instances.\n        \n'
         self.assertEqual(s, f.getvalue())
+
+    def create_class(self, classname):
+        """Creates a class for console tests."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create {}".format(classname))
+        uid = f.getvalue()[:-1]
+        self.assertTrue(len(uid) > 0)
+        return uid
+
+    def help_load_dict(self, rep):
+        """Helper method to test dictionary equality."""
+        rex = re.compile(r"^\[(.*)\] \((.*)\) (.*)$")
+        res = rex.match(rep)
+        self.assertIsNotNone(res)
+        s = res.group(3)
+        s = re.sub(r"(datetime\.datetime\([^)]*\))", "'\\1'", s)
+        d = json.loads(s.replace("'", '"'))
+        return d
+
+    def classes(self):
+        """Returns a dictionary of valid classes and their references."""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+
+        classes = {"BaseModel": BaseModel,
+                   "User": User,
+                   "State": State,
+                   "City": City,
+                   "Amenity": Amenity,
+                   "Place": Place,
+                   "Review": Review}
+        return classes
+
+if __name__ == "__main__":
+    unittest.main()
