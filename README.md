@@ -138,3 +138,6 @@ Python: BaseModel and inheritance
 Code consistency
 Python: Modules and Packages
 HBNB - storage abstraction
+
+========================================
+Adding into the airbnb_v2
