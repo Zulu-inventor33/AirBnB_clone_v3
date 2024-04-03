@@ -78,6 +78,10 @@ class FileStorage:
             del self.__objects[obj.__class__.__name__ + '.' + obj.id]
             self.save()
 
+    def close(self):
+        """Deserialize JSON file to objects"""
+        self.reload()
+
     def attributes(self):
         """
         Returns valid attributes and their classname types
